@@ -4,5 +4,8 @@ using UnityEngine;
 
 public struct TileModel
 {
-    public bool isMove;
+    public Transform transform;
+    public bool moveAble;
+    public bool towerBuledAble;
+    public bool isEndWay;
 }
