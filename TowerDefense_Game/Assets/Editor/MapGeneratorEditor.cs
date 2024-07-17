@@ -45,13 +45,19 @@ public class MapGeneratorEditor : Editor
                 EditorGUILayout.BeginHorizontal();
                 if (GUILayout.Button("Add Way", GUILayout.ExpandWidth(true), GUILayout.MinWidth(300), GUILayout.MaxWidth(600)))
                 {
-
+                    mapGenerator.AddWay();
                 }
                 if (GUILayout.Button("Delete Way", GUILayout.ExpandWidth(true), GUILayout.MinWidth(300), GUILayout.MaxWidth(600)))
                 {
-
+                    mapGenerator.DeleteWay();
                 }
                 EditorGUILayout.EndHorizontal();
+
+                int count = mapGenerator.wayListStack.Count;
+                for(int i = 0; i < count; i++)
+                {
+                    EditorGUILayout.LabelField("Way_" + i);
+                }
 
 
             }

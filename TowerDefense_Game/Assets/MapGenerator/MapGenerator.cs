@@ -14,6 +14,8 @@ public class MapGenerator : MonoBehaviour
     private GameObject mapParent;
 
     public List<TileModel> tileList = new List<TileModel>();
+    public Stack<List<int>> wayListStack = new Stack<List<int>>();
+    public List<int> wayTileList;
 
     public void CreateMap(int _width, int _height)
     {
@@ -50,6 +52,17 @@ public class MapGenerator : MonoBehaviour
         }
     }
 
+    public void AddWay()
+    {
+        wayTileList = new List<int>();
+        wayListStack.Push(wayTileList);
+    }
+
+    public void DeleteWay()
+    {
+
+    }
+
     public void SetTile(int _tileNum)
     {
         Debug.Log(_tileNum);
@@ -62,9 +75,67 @@ public class MapGenerator : MonoBehaviour
         }
         else if (!isSetWayTile)
         {
+            List<int> wayList = wayListStack.Peek();
             TileModel tile = tileList[_tileNum];
             tile.moveAble = true;
             tileList[_tileNum] = tile;
+
+            wayList.Add(_tileNum);
+
+            if(wayList.Count > 1)
+            {
+                int prevTileNum = wayList[wayList.Count - 2];
+                TileModel prevTile = tileList[prevTileNum];
+
+                int curTileNum = wayList[wayList.Count - 1];
+                TileModel curTile = tileList[curTileNum];
+
+                Vector2 dir = curTile.transform.position - prevTile.transform.position;
+                //dir.x = Mathf.Abs(dir.x);
+                //dir.y = Mathf.Abs(dir.y);
+
+                if(dir.x == 0)
+                {
+                    int count = (int)Mathf.Abs(dir.y);
+                    Vector2 prevTilePos = prevTile.transform.position;
+
+                    for (int i = 0; i < count; i++)
+                    {
+                        Debug.Log(dir.y);
+
+                        int increase = dir.y > 0 ? i + 1 : (i + 1) * -1;
+                        Debug.Log(increase);
+
+                        Vector2 betweenTilePos = new Vector2(prevTilePos.x, prevTilePos.y + increase);
+                        int tileNum = (int)betweenTilePos.y * width + (int)betweenTilePos.x;
+                        TileModel betweenTile = tileList[tileNum];
+                        betweenTile.moveAble = true;
+                        tileList[tileNum] = betweenTile;
+
+
+                    }
+                }
+                else if(dir.y == 0)
+                {
+                    int count = (int)Mathf.Abs(dir.x);
+                    Vector2 prevTilePos = prevTile.transform.position;
+
+                    for (int i = 0; i < count; i++)
+                    {
+                        Debug.Log(dir.x);
+
+                        int increase = dir.x > 0 ? i + 1 : (i + 1) * -1;
+                        Debug.Log(increase);
+
+                        Vector2 betweenTilePos = new Vector2(prevTilePos.x + increase, prevTilePos.y);
+                        int tileNum = (int)betweenTilePos.y * width + (int)betweenTilePos.x;
+                        TileModel betweenTile = tileList[tileNum];
+                        betweenTile.moveAble = true;
+                        tileList[tileNum] = betweenTile;
+                    }
+
+                }
+            }
         }
         else if (!isSetTowerBuileTile)
         {
@@ -114,6 +185,13 @@ public class MapGenerator : MonoBehaviour
         isCreateMap = false;
 
         tileList.Clear();
+        int count = wayListStack.Count;
+        for (int i =0; i < count; i++)
+        {
+            wayListStack.Pop().Clear();
+        }
+        wayListStack.Clear();
+
 
 
         isSetWayTile = false;
