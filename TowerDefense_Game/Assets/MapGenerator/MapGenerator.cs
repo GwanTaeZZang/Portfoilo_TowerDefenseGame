@@ -60,7 +60,9 @@ public class MapGenerator : MonoBehaviour
 
     public void DeleteWay()
     {
-
+        List<int> list = wayListStack.Pop();
+        // want Destory No Clear
+        list.Clear();
     }
 
     public void SetTile(int _tileNum)
@@ -135,6 +137,15 @@ public class MapGenerator : MonoBehaviour
                     }
 
                 }
+                else
+                {
+                    //TileModel tile = tileList[_tileNum];
+                    tile.moveAble = false;
+                    tileList[_tileNum] = tile;
+
+                    wayList.RemoveAt(wayList.Count - 1);
+
+                }
             }
         }
         else if (!isSetTowerBuileTile)
@@ -175,8 +186,6 @@ public class MapGenerator : MonoBehaviour
             tileList[i] = tile;
         }
     }
-
-
     public void DestroyMap()
     {
         GameObject map = GameObject.Find("Map");
@@ -197,5 +206,11 @@ public class MapGenerator : MonoBehaviour
         isSetWayTile = false;
         isSetTowerBuileTile = false;
         isSetEndWayTile = false;
+    }
+
+
+    private void UpdateMap()
+    {
+
     }
 }
