@@ -14,6 +14,7 @@ public class MapGenerator : MonoBehaviour
     private GameObject mapParent;
 
     public List<TileModel> tileList = new List<TileModel>();
+    public List<SpriteRenderer> tileSpriteRendererList = new List<SpriteRenderer>();
     public Stack<List<int>> wayListStack = new Stack<List<int>>();
     public List<int> wayTileList;
 
@@ -28,18 +29,22 @@ public class MapGenerator : MonoBehaviour
             {
                 for (int j = 0; j < _width; j++)
                 {
-                    SpriteRenderer tileSpriteRenderer = Instantiate<SpriteRenderer>(Resources.Load<SpriteRenderer>("MapSprite/MoveDisableTile"), mapParent.transform);
+                    SpriteRenderer tileSpriteRenderer = Instantiate<SpriteRenderer>(Resources.Load<SpriteRenderer>("MapSprite/TilePrefab"), mapParent.transform);
 
                     tileSpriteRenderer.transform.position = new Vector2(j, i);
+
                     int tileNum = i * _width + j;
                     tileSpriteRenderer.name = tileSpriteRenderer.name + "_" + tileNum.ToString();
 
                     TileModel tile = new TileModel();
+                    tile.tileId = 0;
                     tile.transform = tileSpriteRenderer.transform;
                     tile.moveAble = false;
                     tile.towerBuledAble = false;
 
                     tileList.Add(tile);
+
+                    tileSpriteRendererList.Add(tileSpriteRenderer);
                 }
             }
 
@@ -73,6 +78,8 @@ public class MapGenerator : MonoBehaviour
         {
             TileModel tile = tileList[_tileNum];
             tile.isEndWay = true;
+            tile.tileId = 1;
+
             tileList[_tileNum] = tile;
         }
         else if (!isSetWayTile)
@@ -80,6 +87,7 @@ public class MapGenerator : MonoBehaviour
             List<int> wayList = wayListStack.Peek();
             TileModel tile = tileList[_tileNum];
             tile.moveAble = true;
+            tile.tileId = 1;
             tileList[_tileNum] = tile;
 
             wayList.Add(_tileNum);
@@ -103,15 +111,17 @@ public class MapGenerator : MonoBehaviour
 
                     for (int i = 0; i < count; i++)
                     {
-                        Debug.Log(dir.y);
+                        //Debug.Log(dir.y);
 
                         int increase = dir.y > 0 ? i + 1 : (i + 1) * -1;
-                        Debug.Log(increase);
+                        //Debug.Log(increase);
 
                         Vector2 betweenTilePos = new Vector2(prevTilePos.x, prevTilePos.y + increase);
                         int tileNum = (int)betweenTilePos.y * width + (int)betweenTilePos.x;
                         TileModel betweenTile = tileList[tileNum];
                         betweenTile.moveAble = true;
+                        betweenTile.tileId = 1;
+
                         tileList[tileNum] = betweenTile;
 
 
@@ -124,15 +134,17 @@ public class MapGenerator : MonoBehaviour
 
                     for (int i = 0; i < count; i++)
                     {
-                        Debug.Log(dir.x);
+                        //Debug.Log(dir.x);
 
                         int increase = dir.x > 0 ? i + 1 : (i + 1) * -1;
-                        Debug.Log(increase);
+                        //Debug.Log(increase);
 
                         Vector2 betweenTilePos = new Vector2(prevTilePos.x + increase, prevTilePos.y);
                         int tileNum = (int)betweenTilePos.y * width + (int)betweenTilePos.x;
                         TileModel betweenTile = tileList[tileNum];
                         betweenTile.moveAble = true;
+                        betweenTile.tileId = 1;
+
                         tileList[tileNum] = betweenTile;
                     }
 
@@ -141,6 +153,8 @@ public class MapGenerator : MonoBehaviour
                 {
                     //TileModel tile = tileList[_tileNum];
                     tile.moveAble = false;
+                    tile.tileId = 0;
+
                     tileList[_tileNum] = tile;
 
                     wayList.RemoveAt(wayList.Count - 1);
@@ -152,8 +166,12 @@ public class MapGenerator : MonoBehaviour
         {
             TileModel tile = tileList[_tileNum];
             tile.towerBuledAble = true;
+            tile.tileId = 2;
             tileList[_tileNum] = tile;
         }
+
+
+        UpdateMap();
     }
 
     public void CancelEndWayTile()
@@ -163,6 +181,7 @@ public class MapGenerator : MonoBehaviour
         {
             TileModel tile = tileList[i];
             tile.isEndWay = false;
+            tile.tileId = 0;
             tileList[i] = tile;
         }
     }
@@ -173,6 +192,7 @@ public class MapGenerator : MonoBehaviour
         {
             TileModel tile = tileList[i];
             tile.moveAble = false;
+            tile.tileId = 0;
             tileList[i] = tile;
         }
     }
@@ -183,6 +203,7 @@ public class MapGenerator : MonoBehaviour
         {
             TileModel tile = tileList[i];
             tile.towerBuledAble = false;
+            tile.tileId = 0;
             tileList[i] = tile;
         }
     }
@@ -201,7 +222,7 @@ public class MapGenerator : MonoBehaviour
         }
         wayListStack.Clear();
 
-
+        tileSpriteRendererList.Clear();
 
         isSetWayTile = false;
         isSetTowerBuileTile = false;
@@ -211,6 +232,26 @@ public class MapGenerator : MonoBehaviour
 
     private void UpdateMap()
     {
+        for(int i = 0; i < height; i++)
+        {
+            for(int j =0; j < width; j++)
+            {
+                int tileNum = i * width + j;
+                TileModel tileModel = tileList[tileNum];
 
+                if (tileModel.tileId == 0)
+                {
+                    tileSpriteRendererList[tileNum].sprite = Resources.Load<Sprite>("MapSprite/MoveDisableTile");
+                }
+                else if (tileModel.tileId == 1)
+                {
+                    tileSpriteRendererList[tileNum].sprite = Resources.Load<Sprite>("MapSprite/MoveAbleTile");
+                }
+                else
+                {
+                    tileSpriteRendererList[tileNum].sprite = Resources.Load<Sprite>("MapSprite/TowerBuildTile");
+                }
+            }
+        }
     }
 }
