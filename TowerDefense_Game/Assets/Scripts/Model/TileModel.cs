@@ -13,7 +13,7 @@ public struct TileModel
 
 public enum TileType
 {
-    MoveAble,
     MoveDisable,
+    MoveAble,
     TowerBuildAble,
 }
