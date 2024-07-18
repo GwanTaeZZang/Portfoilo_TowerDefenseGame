@@ -254,4 +254,9 @@ public class MapGenerator : MonoBehaviour
             }
         }
     }
+
+    private void ComputBetweenTile(List<int> _wayTileList, int _chageTileType)
+    {
+
+    }
 }
