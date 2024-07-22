@@ -1,0 +1,150 @@
+{
+    "id": 0,
+    "wid": 5,
+    "goalIdx": 14,
+    "tiles": [
+        {
+            "imageIdx": 1,
+            "moveable": true,
+            "buildable": false
+        },
+        {
+            "imageIdx": 1,
+            "moveable": true,
+            "buildable": false
+        },
+        {
+            "imageIdx": 1,
+            "moveable": true,
+            "buildable": false
+        },
+        {
+            "imageIdx": 0,
+            "moveable": false,
+            "buildable": false
+        },
+        {
+            "imageIdx": 0,
+            "moveable": false,
+            "buildable": false
+        },
+        {
+            "imageIdx": 1,
+            "moveable": true,
+            "buildable": false
+        },
+        {
+            "imageIdx": 2,
+            "moveable": false,
+            "buildable": true
+        },
+        {
+            "imageIdx": 1,
+            "moveable": true,
+            "buildable": false
+        },
+        {
+            "imageIdx": 0,
+            "moveable": false,
+            "buildable": false
+        },
+        {
+            "imageIdx": 0,
+            "moveable": false,
+            "buildable": false
+        },
+        {
+            "imageIdx": 1,
+            "moveable": true,
+            "buildable": false
+        },
+        {
+            "imageIdx": 2,
+            "moveable": false,
+            "buildable": true
+        },
+        {
+            "imageIdx": 1,
+            "moveable": true,
+            "buildable": false
+        },
+        {
+            "imageIdx": 1,
+            "moveable": true,
+            "buildable": false
+        },
+        {
+            "imageIdx": 1,
+            "moveable": true,
+            "buildable": false
+        },
+        {
+            "imageIdx": 1,
+            "moveable": true,
+            "buildable": false
+        },
+        {
+            "imageIdx": 2,
+            "moveable": false,
+            "buildable": true
+        },
+        {
+            "imageIdx": 1,
+            "moveable": true,
+            "buildable": false
+        },
+        {
+            "imageIdx": 0,
+            "moveable": false,
+            "buildable": false
+        },
+        {
+            "imageIdx": 0,
+            "moveable": false,
+            "buildable": false
+        },
+        {
+            "imageIdx": 1,
+            "moveable": true,
+            "buildable": false
+        },
+        {
+            "imageIdx": 1,
+            "moveable": true,
+            "buildable": false
+        },
+        {
+            "imageIdx": 1,
+            "moveable": true,
+            "buildable": false
+        },
+        {
+            "imageIdx": 0,
+            "moveable": false,
+            "buildable": false
+        },
+        {
+            "imageIdx": 0,
+            "moveable": false,
+            "buildable": false
+        }
+    ],
+    "routes": [
+        {
+            "tileIdxs": [
+                10,
+                20,
+                22,
+                12
+            ]
+        },
+        {
+            "tileIdxs": [
+                10,
+                0,
+                2,
+                12
+            ]
+        }
+    ]
+}

@@ -17,10 +17,14 @@ public class MapGeneratorEditor : Editor
 
     public override void OnInspectorGUI()
     {
+
+        EditorGUILayout.PrefixLabel("Map Name");
+        mapGenerator.mapName = EditorGUILayout.TextField("Map Name", mapGenerator.mapName);
+
         EditorGUILayout.PrefixLabel("Map Size");
         mapGenerator.width = EditorGUILayout.IntField("Width", mapGenerator.width);
         mapGenerator.height = EditorGUILayout.IntField("Height", mapGenerator.height);
-        if (GUILayout.Button("Create Map", GUILayout.ExpandWidth(true), GUILayout.MinWidth(300), GUILayout.MaxWidth(600)))
+        if (GUILayout.Button("Create Map", GUILayout.ExpandWidth(true), GUILayout.MinWidth(200), GUILayout.MaxWidth(400)))
         {
             mapGenerator.CreateMap(mapGenerator.width, mapGenerator.height);
             mapGenerator.isCreateMap = true;
@@ -164,7 +168,7 @@ public class MapGeneratorEditor : Editor
         //EditorGUILayout.BeginHorizontal();
 
 
-        if (GUILayout.Button("Delete Map", GUILayout.ExpandWidth(true), GUILayout.MinWidth(300), GUILayout.MaxWidth(600)))
+        if (GUILayout.Button("Delete Map", GUILayout.ExpandWidth(true), GUILayout.MinWidth(200), GUILayout.MaxWidth(400)))
         {
             //GameObject map = GameObject.Find("Map");
             //DestroyImmediate(map);
@@ -174,6 +178,13 @@ public class MapGeneratorEditor : Editor
             tileNum = 0;
 
         }
+
+
+        if (GUILayout.Button("To Json Map Data", GUILayout.ExpandWidth(true), GUILayout.MinWidth(200), GUILayout.MaxWidth(400)))
+        {
+            mapGenerator.CreateJsonMapData();
+        }
+
 
     }
 }

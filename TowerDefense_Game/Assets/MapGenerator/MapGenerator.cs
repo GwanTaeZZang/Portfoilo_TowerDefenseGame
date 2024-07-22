@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class MapGenerator : MonoBehaviour
 {
+    public string mapName;
     public int width;
     public int height;
     public bool isCreateMap = false;
@@ -37,6 +38,7 @@ public class MapGenerator : MonoBehaviour
                     tileSpriteRenderer.name = tileSpriteRenderer.name + "_" + tileNum.ToString();
 
                     TileModel tile = new TileModel();
+                    tile.tileType = TileType.MoveDisable;
                     tile.tileId = 0;
                     tile.transform = tileSpriteRenderer.transform;
                     tile.moveAble = false;
@@ -78,6 +80,7 @@ public class MapGenerator : MonoBehaviour
         {
             TileModel tile = tileList[_tileNum];
             tile.isEndWay = true;
+            tile.tileType = TileType.MoveAble;
             tile.tileId = 1;
 
             tileList[_tileNum] = tile;
@@ -87,6 +90,7 @@ public class MapGenerator : MonoBehaviour
             List<int> wayList = wayListStack.Peek();
             TileModel tile = tileList[_tileNum];
             tile.moveAble = true;
+            tile.tileType = TileType.MoveAble;
             tile.tileId = 1;
             tileList[_tileNum] = tile;
 
@@ -120,6 +124,7 @@ public class MapGenerator : MonoBehaviour
                         int tileNum = (int)betweenTilePos.y * width + (int)betweenTilePos.x;
                         TileModel betweenTile = tileList[tileNum];
                         betweenTile.moveAble = true;
+                        betweenTile.tileType = TileType.MoveAble;
                         betweenTile.tileId = 1;
 
                         tileList[tileNum] = betweenTile;
@@ -143,6 +148,7 @@ public class MapGenerator : MonoBehaviour
                         int tileNum = (int)betweenTilePos.y * width + (int)betweenTilePos.x;
                         TileModel betweenTile = tileList[tileNum];
                         betweenTile.moveAble = true;
+                        betweenTile.tileType = TileType.MoveAble;
                         betweenTile.tileId = 1;
 
                         tileList[tileNum] = betweenTile;
@@ -153,6 +159,7 @@ public class MapGenerator : MonoBehaviour
                 {
                     //TileModel tile = tileList[_tileNum];
                     tile.moveAble = false;
+                    tile.tileType = TileType.MoveDisable;
                     tile.tileId = 0;
 
                     tileList[_tileNum] = tile;
@@ -161,11 +168,18 @@ public class MapGenerator : MonoBehaviour
 
                 }
             }
+
+            List<int> intList = wayListStack.Peek();
+            for (int i =0; i < intList.Count; i++)
+            {
+                Debug.Log(intList[i]);
+            }
         }
         else if (!isSetTowerBuileTile)
         {
             TileModel tile = tileList[_tileNum];
             tile.towerBuledAble = true;
+            tile.tileType = TileType.TowerBuildAble;
             tile.tileId = 2;
             tileList[_tileNum] = tile;
         }
@@ -181,6 +195,7 @@ public class MapGenerator : MonoBehaviour
         {
             TileModel tile = tileList[i];
             tile.isEndWay = false;
+            tile.tileType = TileType.MoveDisable;
             tile.tileId = 0;
             tileList[i] = tile;
         }
@@ -192,6 +207,7 @@ public class MapGenerator : MonoBehaviour
         {
             TileModel tile = tileList[i];
             tile.moveAble = false;
+            tile.tileType = TileType.MoveDisable;
             tile.tileId = 0;
             tileList[i] = tile;
         }
@@ -203,10 +219,13 @@ public class MapGenerator : MonoBehaviour
         {
             TileModel tile = tileList[i];
             tile.towerBuledAble = false;
+            tile.tileType = TileType.MoveDisable;
             tile.tileId = 0;
             tileList[i] = tile;
         }
     }
+
+
     public void DestroyMap()
     {
         GameObject map = GameObject.Find("Map");
@@ -229,6 +248,64 @@ public class MapGenerator : MonoBehaviour
         isSetEndWayTile = false;
     }
 
+    public void CreateJsonMapData()
+    {
+        if (mapName == "")
+        {
+            Debug.Log("Set Map Name");
+            return;
+        }
+
+        JsonController.WriteJson<MapData>(mapName, ConvertTileDataToJsonData());
+    }
+
+    private MapData ConvertTileDataToJsonData()
+    {
+        MapData mapData = new MapData();
+        mapData.id = 0;
+        mapData.wid = width;
+
+        int count = tileList.Count;
+
+        mapData.tiles = new TileData[count];
+        for (int i =0; i < count; i++)
+        {
+            TileModel tileModel = tileList[i];
+            TileData tileData = new TileData();
+            tileData.imageIdx = (int)tileModel.tileType;
+            tileData.moveable = tileModel.moveAble;
+            tileData.buildable = tileModel.towerBuledAble;
+
+            if (tileModel.isEndWay)
+            {
+                mapData.goalIdx = i;
+            }
+
+            mapData.tiles[i] = tileData;
+        }
+
+        count = wayListStack.Count;
+
+        mapData.routes = new RouteData[count];
+        for(int i =0; i < count; i++)
+        {
+            List<int> routesList = wayListStack.Pop();
+
+            int listCount = routesList.Count - 1;
+
+            RouteData routeData = new RouteData();
+            routeData.tileIdxs = new int[listCount];
+
+            for (int j = 0; j<listCount; j++)
+            {
+                routeData.tileIdxs[j] = routesList[j];
+            }
+
+            mapData.routes[i] = routeData;
+        }
+
+        return mapData;
+    }
 
     private void UpdateMap()
     {
