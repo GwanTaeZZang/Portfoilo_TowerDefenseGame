@@ -353,12 +353,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2c7c1bca405cc447bb445e86ccdb843, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mapName: 
   width: 5
   height: 5
   isCreateMap: 0
   isSetWayTile: 0
   isSetEndWayTile: 0
   isSetTowerBuileTile: 0
+  tileSpriteRendererList: []
+  wayTileList: 
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
