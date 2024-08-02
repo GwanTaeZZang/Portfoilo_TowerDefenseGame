@@ -68,12 +68,18 @@ public class NetworkTestTCP : MonoBehaviour
         try
         {
             client = new TcpClient(server, port);
+            client.SendBufferSize = 4096;
+            client.ReceiveBufferSize = 4096;
+
             stream = client.GetStream();
 
             Debug.Log("Connected to server");
 
             // 서버에 메시지 전송 예시
-            SendMessage("Hello from Unity!");
+            ReqMapData reqMapData = new ReqMapData();
+            reqMapData.id = 1;
+
+            SendMessage(reqMapData);
 
             //client.Close();
         }
@@ -83,7 +89,7 @@ public class NetworkTestTCP : MonoBehaviour
         }
     }
 
-    void SendMessage(string message)
+    void SendMessage(PacketBase _packet)
     {
         if (stream == null)
         {
@@ -91,10 +97,12 @@ public class NetworkTestTCP : MonoBehaviour
             return;
         }
 
-        byte[] data = Encoding.ASCII.GetBytes(message);
+        string json = JsonUtility.ToJson(_packet, true);
+        byte[] buffer = new byte[4096]; 
+        byte[] data = Encoding.ASCII.GetBytes(json, 0, json.Length);
         stream.Write(data, 0, data.Length);
 
-        Debug.Log("Message sent: " + message);
+        Debug.Log("Message sent: " + json);
 
         // 서버로부터 응답 받기
         byte[] receivedBytes = new byte[256];
