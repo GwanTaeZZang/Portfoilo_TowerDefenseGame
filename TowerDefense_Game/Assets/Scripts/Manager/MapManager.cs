@@ -34,7 +34,7 @@ public class MapManager : Singleton<MapManager>
         for(int i = 0; i < count; i++)
         {
             TileType tileType = (TileType)i;
-            Sprite tileSprite = Resources.Load<Sprite>("MapSprite/TileSprite_" + i);
+            Sprite tileSprite = Resources.Load<Sprite>("Map/TileSprite_" + i);
             tileSprteDict.Add(tileType, tileSprite);
         }
     }

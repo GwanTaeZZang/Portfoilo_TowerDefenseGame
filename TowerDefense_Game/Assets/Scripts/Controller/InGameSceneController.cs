@@ -6,14 +6,27 @@ public class InGameSceneController : MonoBehaviour
 {
     private GameObject mapParent;
     private MapData mapData;
+
+    private WaveController waveController;
+
     private void Awake()
     {
         mapData = MapManager.getInstance.GetMapData();
+        waveController = new WaveController(mapData);
     }
     private void Start()
     {
         CreateMap();
     }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown("space"))
+        {
+            waveController.SpawnMonster();
+        }
+    }
+
 
     private void CreateMap()
     {
@@ -27,7 +40,7 @@ public class InGameSceneController : MonoBehaviour
         {
             for(int j = 0; j < width; j++)
             {
-                SpriteRenderer tileSpriteRenderer = Instantiate<SpriteRenderer>(Resources.Load<SpriteRenderer>("MapSprite/TilePrefab"), mapParent.transform);
+                SpriteRenderer tileSpriteRenderer = Instantiate<SpriteRenderer>(Resources.Load<SpriteRenderer>("Map/TilePrefab"), mapParent.transform);
                 tileSpriteRenderer.transform.position = new Vector2(j, i);
 
                 int tileNum = i * width + j;
