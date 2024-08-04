@@ -9,10 +9,18 @@ public class InGameSceneController : MonoBehaviour
 
     private WaveController waveController;
 
+    private GameObject towerParent;
+
+    private Camera mainCamera;
+
     private void Awake()
     {
+        mainCamera = Camera.main;
         mapData = MapManager.getInstance.GetMapData();
         waveController = new WaveController(mapData);
+
+        towerParent = new GameObject();
+        towerParent.name = "TowerParent";
     }
     private void Start()
     {
@@ -24,6 +32,32 @@ public class InGameSceneController : MonoBehaviour
         if (Input.GetKeyDown("space"))
         {
             waveController.SpawnMonster();
+        }
+        if (Input.GetMouseButtonDown(0))
+        {
+            Vector3 touchVector = mainCamera.ScreenToWorldPoint(Input.mousePosition);
+
+            int x = Mathf.RoundToInt(touchVector.x);
+            int y = Mathf.RoundToInt(touchVector.y);
+
+            //Debug.Log($"x : {x}   y : {y}");
+
+            if(x >= 0 && x < mapData.wid &&
+               y >= 0 && y < mapData.tiles.Length / mapData.wid)
+            {
+                int tileIdx = y * mapData.wid + x;
+
+                Debug.Log(tileIdx);
+
+                if (mapData.tiles[tileIdx].buildable)
+                {
+                    Debug.Log("buildAble");
+                    TowerController towerController = Instantiate<TowerController>(Resources.Load<TowerController>("Tower/TowerPrefab"), towerParent.transform);
+
+                    towerController.transform.position = new Vector2(x, y);
+                }
+            }
+
         }
     }
 
