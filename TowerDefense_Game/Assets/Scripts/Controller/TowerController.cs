@@ -5,4 +5,7 @@ using UnityEngine;
 public class TowerController : MonoBehaviour
 {
     [SerializeField] private SpriteRenderer spriteRenderer;
+
+    private TowerModel model;
+
 }
