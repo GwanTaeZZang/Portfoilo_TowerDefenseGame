@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+
 public struct TileModel
 {
     public TileType tileType;
@@ -58,4 +60,40 @@ public struct SpawnData
 public struct RouteData
 {
     public int[] tileIdxs;
+}
+
+
+
+
+public class BuildAbleTileObject
+{
+    public int tileIdx;
+    public TowerController towerController;
+    public int buildTowerId;
+    public Vector2 position;
+
+    public BuildAbleTileObject(int _tileIdx, Vector2 _position)
+    {
+        tileIdx = _tileIdx;
+        position = _position;
+        SetTowerId(-1);
+    }
+
+    public void SetTowerController(TowerController _towerController)
+    {
+        towerController = _towerController;
+    }
+    public TowerController GetTowerController()
+    {
+        return towerController;
+    }
+
+    public void SetTowerId(int _towerId)
+    {
+        buildTowerId = _towerId;
+    }
+    public int GetTowerId()
+    {
+        return buildTowerId;
+    }
 }
