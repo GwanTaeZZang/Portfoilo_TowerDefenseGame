@@ -15,11 +15,11 @@ public class TowerModel
 
 public enum TowerType
 {
-    SingleFire,
-    Boom,
-    Debuff,
+    SingleFire, // baseType
+    Boom,       // baseType
+    Debuff,     // baseType
     Pierce,
     Launcher,
-    AutoFire,
+    AutoFire,   // baseType
     Multi,
 }
