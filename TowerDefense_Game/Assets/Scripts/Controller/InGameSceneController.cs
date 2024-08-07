@@ -29,7 +29,7 @@ public class InGameSceneController : MonoBehaviour
     private void Start()
     {
         mapCreator.CreateMap(mapData);
-        towerBuildController.CreateTower();
+        towerBuildController.CreateTower(mapData);
     }
 
     private void Update()
@@ -59,6 +59,8 @@ public class InGameSceneController : MonoBehaviour
                 if (mapData.tiles[tileIdx].buildable)
                 {
                     Debug.Log("buildAble");
+
+                    towerBuildController.OnClickBuildAbleTile(tileIdx);
                     //TowerController towerController = Instantiate<TowerController>(Resources.Load<TowerController>("Tower/TowerPrefab"), towerParent.transform);
 
                     //towerController.transform.position = new Vector2(x, y);

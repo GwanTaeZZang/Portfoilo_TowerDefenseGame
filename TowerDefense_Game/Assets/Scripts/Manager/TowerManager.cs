@@ -4,25 +4,45 @@ using UnityEngine;
 
 public class TowerManager : Singleton<TowerManager>
 {
-    private List<BuildAbleTileObject> buildAbleTileList = new List<BuildAbleTileObject>();
-    private Dictionary<int, BuildAbleTileObject> buildAbleTileDict = new Dictionary<int, BuildAbleTileObject>();
+    //private List<BuildAbleTileObject> buildAbleTileList = new List<BuildAbleTileObject>();
+    private Dictionary<int, TowerController> towerControllerDict = new Dictionary<int, TowerController>();
 
 
-    public void AddBuildAbleTile(BuildAbleTileObject _tileObject)
+    //public void AddBuildAbleTile(BuildAbleTileObject _tileObject)
+    //{
+    //    buildAbleTileList.Add(_tileObject);
+    //}
+
+    //public List<BuildAbleTileObject> GetBuildAbleTileList()
+    //{
+    //    return buildAbleTileList;
+    //}
+
+    //public int GetBuildAbleTileCount()
+    //{
+    //    return buildAbleTileList.Count;
+    //}
+
+    public void AddTowerControllerDictKey(int _tileIdx, TowerController _towerController)
     {
-        buildAbleTileList.Add(_tileObject);
+        towerControllerDict.Add(_tileIdx, _towerController);
     }
 
-    public List<BuildAbleTileObject> GetBuildAbleTileList()
+    public Dictionary<int, TowerController> GetTowerControllerDict()
     {
-        return buildAbleTileList;
+        return towerControllerDict;
     }
 
-    public int GetBuildAbleTileCount()
+    public TowerController GetTowerController(int _tileIdx)
     {
-        return buildAbleTileList.Count;
-    }
+        if (towerControllerDict.ContainsKey(_tileIdx))
+        {
+            return towerControllerDict[_tileIdx];
+        }
 
+        Debug.Log("ket not found in dict");
+        return null;
+    }
 
     //public void AddBuildAbleTileObject(int _tileIdx, BuildAbleTileObject _tileObject)
     //{

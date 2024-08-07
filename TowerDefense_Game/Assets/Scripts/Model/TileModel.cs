@@ -65,35 +65,35 @@ public struct RouteData
 
 
 
-public class BuildAbleTileObject
-{
-    public int tileIdx;
-    public TowerController towerController;
-    public int buildTowerId;
-    public Vector2 position;
+//public class BuildAbleTileObject
+//{
+//    private int tileIdx;
+//    private TowerController towerController;
+//    private int buildTowerId;
+//    public Vector2 position;
 
-    public BuildAbleTileObject(int _tileIdx, Vector2 _position)
-    {
-        tileIdx = _tileIdx;
-        position = _position;
-        SetTowerId(-1);
-    }
+//    public BuildAbleTileObject(int _tileIdx, Vector2 _position)
+//    {
+//        tileIdx = _tileIdx;
+//        position = _position;
+//        SetTowerId(-1);
+//    }
 
-    public void SetTowerController(TowerController _towerController)
-    {
-        towerController = _towerController;
-    }
-    public TowerController GetTowerController()
-    {
-        return towerController;
-    }
+//    public void SetTowerController(TowerController _towerController)
+//    {
+//        towerController = _towerController;
+//    }
+//    public TowerController GetTowerController()
+//    {
+//        return towerController;
+//    }
 
-    public void SetTowerId(int _towerId)
-    {
-        buildTowerId = _towerId;
-    }
-    public int GetTowerId()
-    {
-        return buildTowerId;
-    }
-}
+//    public void SetTowerId(int _towerId)
+//    {
+//        buildTowerId = _towerId;
+//    }
+//    public int GetTowerId()
+//    {
+//        return buildTowerId;
+//    }
+//}

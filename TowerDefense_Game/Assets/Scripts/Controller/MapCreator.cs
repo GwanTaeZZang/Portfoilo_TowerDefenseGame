@@ -30,13 +30,15 @@ public class MapCreator
 
                 int spriteidx = _mapData.tiles[tileNum].imageIdx;
 
-                if (_mapData.tiles[tileNum].buildable)
-                {
-                    BuildAbleTileObject buildAbleTile = new BuildAbleTileObject(tileNum, new Vector2(j, i));
-                    TowerManager.getInstance.AddBuildAbleTile(buildAbleTile);
+                //if (_mapData.tiles[tileNum].buildable)
+                //{
+                //    //BuildAbleTileObject buildAbleTile = new BuildAbleTileObject(tileNum, new Vector2(j, i));
+                //    //TowerManager.getInstance.AddBuildAbleTile(buildAbleTile);
 
-                    Debug.Log($"Add the BuildAble Tower Obejct in Tower Manager {tileNum} :  {new Vector2(j, i)}");
-                }
+
+                //    TowerManager.getInstance.AddTowerControllerDictKey(tileNum);
+                //    Debug.Log($"Add the BuildAble Tower Obejct in Tower Manager {tileNum} :  {new Vector2(j, i)}");
+                //}
 
                 tileSpriteRenderer.sprite = MapManager.getInstance.GetTileSprite((TileType)spriteidx);
             }
